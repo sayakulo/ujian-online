@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Hasil Ujian</title>
+  <link rel="stylesheet" href="css/gaya.css">
+</head>
+<body>
+  <h2>Hasil Ujian Anda</h2>
+  
+  <!-- tempat untuk menampilkan nama -->
+  <div id="userInfo"></div>
+  <div id="kdj"></div>
+  <!-- tempat untuk menampilkan nilai -->
+  <div id="hasil"></div>
+    
+  <script>
+    // ambil nama user dari localStorage
+    let nama = localStorage.getItem("login");
+    document.getElementById("userInfo").innerHTML = "<p>Nama: <b>" + nama + "</b></p>";
+	// ambil kelas dan jurusan 
+  	let kelas = localStorage.getItem("kdj");
+	document.getElementById("kdj").innerHTML = "<p> Kelas dan Jurusan :<b>" + kelas + "</b></p>";
+	    // ambil nilai ujian dari localStorage
+    let nilai = localStorage.getItem("nilaiUjian");
+    document.getElementById("hasil").innerHTML = "<p>Nilai Anda: <b>" + nilai + "</b></p>";
+
+  </script>
+</body>
+</html>
