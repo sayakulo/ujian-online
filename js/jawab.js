@@ -46,19 +46,25 @@ function submitQuiz() {
       return;
   }
 
-  let score = 0;
+  let benar = 0;
   let total = Object.keys(correctAnswers).length;
 
+  // Hitung jumlah jawaban benar
   for (let q in correctAnswers) {
     let selected = document.querySelector(`input[name="${q}"]:checked`);
     if (selected && selected.value === correctAnswers[q]) {
-      score++;
+      benar++;
     }
   }
 
-  // simpan skor ke localStorage
-  localStorage.setItem("nilaiUjian", score + " / " + total);
+  // Skor akhir = jumlah benar × 5
+  let score = benar * 5;
 
-  // pindah ke halaman hasil
+  // Simpan hasil ke localStorage
+  localStorage.setItem("nilaiUjian", score);
+  localStorage.setItem("jumlahBenar", benar);
+  localStorage.setItem("totalSoal", total);
+
+  // Pindah ke halaman hasil
   window.location.href = "hasil.html";
 }
