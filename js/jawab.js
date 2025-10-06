@@ -11,10 +11,10 @@ function submitQuiz() {
                          q16: "A", q17: "B", q18: "C", q19: "D", q20: "E" };
       break;
     case "XI RPL":
-      correctAnswers = { q1: "A", q2: "C", q3: "B", q4: "B", q5: "C",
-                         q6: "E", q7: "A", q8: "B", q9: "C", q10: "D",
-                         q11: "E", q12: "A", q13: "B", q14: "E", q15: "C",
-                         q16: "D", q17: "A", q18: "C", q19: "D", q20: "E" };
+      correctAnswers = { q1: "B", q2: "B", q3: "C", q4: "D", q5: "D",
+                         q6: "C", q7: "B", q8: "B", q9: "C", q10: "B",
+                         q11: "C", q12: "C", q13: "B", q14: "B", q15: "B",
+                         q16: "C", q17: "B", q18: "C", q19: "C", q20: "B" };
       break;
     case "XII RPL":
       correctAnswers = { q1: "B", q2: "C", q3: "D", q4: "A", q5: "C",
