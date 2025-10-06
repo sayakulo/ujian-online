@@ -3,18 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <title>Silahkan Login</title>
-  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #e3f2fd, #bbdefb);
+    }
+    .card {
+      border-radius: 15px;
+    }
+  </style>
 </head>
-<body class="d-flex align-items-center justify-content-center vh-100 bg-light">
+<body class="d-flex align-items-center justify-content-center vh-100">
 
   <div class="card shadow p-4" style="width: 22rem;">
-    <h1 class="h4 text-center mb-4">Ujian Online (Pre-Alpha)</h1>
+    <h1 class="h4 text-center mb-4 text-primary">Ujian Online (Pre-Alpha)</h1>
     <form>
+      <!-- Pilih Mode Login -->
+      <div class="mb-3">
+        <label class="form-label">Login Sebagai:</label>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="mode" id="siswa" value="siswa" checked>
+          <label class="form-check-label" for="siswa">Siswa</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="mode" id="admin" value="admin">
+          <label class="form-check-label" for="admin">Admin</label>
+        </div>
+      </div>
+
       <!-- Username -->
       <div class="mb-3">
         <label for="user" class="form-label">User Name</label>
-        <input type="text" class="form-control" id="user" placeholder="masukkan id">
+        <input type="text" class="form-control" id="user" placeholder="masukkan username">
       </div>
 
       <!-- Password -->
@@ -23,8 +43,8 @@
         <input type="password" class="form-control" id="pass" placeholder="masukkan password">
       </div>
 
-      <!-- Radio group -->
-      <div class="mb-3">
+      <!-- Kelas dan Jurusan -->
+      <div id="kelasJurusan" class="mb-3">
         <label class="form-label">Kelas dan Jurusan</label>
         <div class="form-check">
           <input class="form-check-input" type="radio" name="kdj" id="xrpl" value="X RPL">
@@ -44,71 +64,84 @@
         </div>
       </div>
 
-      <!-- Button -->
+      <!-- Tombol -->
       <button id="login" type="button" class="btn btn-primary w-100">Login</button>
-
-      <!-- Error message -->
       <p id="errorMsg" class="text-danger small mt-2"></p>
     </form>
   </div>
 
-  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script> 
+
+  <script>
   document.addEventListener("DOMContentLoaded", () => {
-  const loginBtn = document.getElementById("login");
-  const user = document.getElementById("user");
-  const password = document.getElementById("pass");
-  const errorMsg = document.getElementById("errorMsg");
+    const loginBtn = document.getElementById("login");
+    const user = document.getElementById("user");
+    const password = document.getElementById("pass");
+    const errorMsg = document.getElementById("errorMsg");
+    const kelasJurusan = document.getElementById("kelasJurusan");
+    const radios = document.querySelectorAll('input[name="mode"]');
 
-  loginBtn.addEventListener("click", (e) => {
-    e.preventDefault();
+    // Sembunyikan/lihat bagian kelas saat ganti mode
+    radios.forEach(r => {
+      r.addEventListener("change", () => {
+        if (document.getElementById("admin").checked) {
+          kelasJurusan.style.display = "none";
+        } else {
+          kelasJurusan.style.display = "block";
+        }
+      });
+    });
 
-    let username = user.value.trim();
-    let pass = password.value.trim();
+    loginBtn.addEventListener("click", (e) => {
+      e.preventDefault();
 
-    if (username === "" || pass === "") {
-      errorMsg.innerHTML = "<p>User name dan password tidak boleh kosong</p>";
-      setTimeout(() => { errorMsg.innerHTML = ""; }, 3000);
-      return;
-    }
+      const username = user.value.trim();
+      const pass = password.value.trim();
+      const mode = document.querySelector('input[name="mode"]:checked').value;
 
-    // Simpan username ke localStorage
-    localStorage.setItem("login", username);
+      if (username === "" || pass === "") {
+        errorMsg.innerHTML = "Username dan password tidak boleh kosong.";
+        setTimeout(() => (errorMsg.innerHTML = ""), 3000);
+        return;
+      }
 
-    // Ambil kelas/jurusan
-    const kdj = document.querySelector('input[name="kdj"]:checked');
-    if (kdj) {
+      // Login Admin
+      if (mode === "admin") {
+        if (username === "admin" && pass === "12345") {
+          window.location.href = "admin.html";
+        } else {
+          errorMsg.innerHTML = "Login admin salah!";
+          setTimeout(() => (errorMsg.innerHTML = ""), 3000);
+        }
+        return;
+      }
+
+      // Login Siswa
+      const kdj = document.querySelector('input[name="kdj"]:checked');
+      if (!kdj) {
+        errorMsg.innerHTML = "Silakan pilih kelas/jurusan terlebih dahulu.";
+        setTimeout(() => (errorMsg.innerHTML = ""), 3000);
+        return;
+      }
+
+      // Simpan data siswa
+      localStorage.setItem("login", username);
       localStorage.setItem("kdj", kdj.value);
 
-      // Tentukan file soal sesuai kelas
+      // Tentukan halaman soal
       let soalPage = "";
       switch (kdj.value) {
-        case "X RPL":
-          soalPage = "soal_x_rpl.html";
-          break;
-        case "XI RPL":
-          soalPage = "soal_xi_rpl.html";
-          break;
-        case "XII RPL":
-          soalPage = "soal_xii_rpl.html";
-          break;
-        case "X AKL":
-          soalPage = "soal_x_akl.html";
-          break;
-        default:
-          soalPage = "soal.html"; // fallback
+        case "X RPL": soalPage = "soal_x_rpl.html"; break;
+        case "XI RPL": soalPage = "soal_xi_rpl.html"; break;
+        case "XII RPL": soalPage = "soal_xii_rpl.html"; break;
+        case "X AKL": soalPage = "soal_x_akl.html"; break;
+        default: soalPage = "soal.html";
       }
 
       // Arahkan ke halaman soal
       window.location.href = soalPage;
-
-    } else {
-      errorMsg.innerHTML = "<p>Silakan pilih kelas/jurusan dulu</p>";
-      setTimeout(() => { errorMsg.innerHTML = ""; }, 3000);
-    }
+    });
   });
-});
-</script>
+  </script>
 </body>
 </html>
