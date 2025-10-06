@@ -5,10 +5,10 @@ function submitQuiz() {
   let correctAnswers = {};
   switch (kdj) {
     case "X RPL":
-      correctAnswers = { q1: "A", q2: "B", q3: "C", q4: "D", q5: "E",
-                         q6: "A", q7: "B", q8: "C", q9: "D", q10: "E",
-                         q11: "A", q12: "B", q13: "C", q14: "D", q15: "E",
-                         q16: "A", q17: "B", q18: "C", q19: "D", q20: "E" };
+      correctAnswers = { q1: "A", q2: "B", q3: "C", q4: "B", q5: "B",
+                         q6: "A", q7: "C", q8: "A", q9: "A", q10: "C",
+                         q11: "B", q12: "B", q13: "C", q14: "A", q15: "B",
+                         q16: "C", q17: "C", q18: "B", q19: "B", q20: "A" };
       break;
     case "XI RPL":
       correctAnswers = { q1: "B", q2: "B", q3: "C", q4: "D", q5: "D",
